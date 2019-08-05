@@ -2,10 +2,11 @@ import csv
 import numpy as np
 from scipy.signal import savgol_filter, find_peaks
 import matplotlib.pyplot as plt
+from heart_rate import HeartRate
 
 
 
-class VoltageData:
+class Voltage:
     def __init__(self, resolution, voltage):
         self.resolution = resolution
         self.voltage = voltage
@@ -20,6 +21,14 @@ class VoltageData:
         for row in reader:
             voltage.append(float(row[1]))
         return cls(resolution=float(second_row[3]), voltage=np.array(voltage))
+
+
+    def to_heart_rate(self):
+        heart_rate = []
+        peaks = self.peaks()
+        for id, peak in enumerate(peaks[:-1]):
+            heart_rate.append(60 / (peaks[id + 1] - peak) / self.resolution)
+        return HeartRate(peaks[1:] * self.resolution, heart_rate)
 
 
     def smooth(self, window_seconds=0.25):
@@ -46,7 +55,7 @@ class VoltageData:
         return find_peaks(self.voltage, prominence=prominence, distance=distance)[0]
 
 
-    def plot(self, window_title='VoltageData plot'):
+    def plot(self, window_title='voltage plot'):
         seconds = np.linspace(0, len(self.voltage) * self.resolution, len(self.voltage))
         plt.plot(seconds, self.voltage, label='voltage')
         plt.plot(seconds, self.smooth().voltage, label='voltage, smoothed')
