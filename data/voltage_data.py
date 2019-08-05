@@ -47,8 +47,13 @@ class VoltageData:
 
 
     def plot(self, window_title='VoltageData plot'):
-        plt.plot(self.voltage)
-        plt.plot(self.peaks(), self.voltage[self.peaks()], 'x')
-        plt.ylabel('voltage')
+        seconds = np.linspace(0, len(self.voltage) * self.resolution, len(self.voltage))
+        plt.plot(seconds, self.voltage, label='voltage')
+        plt.plot(seconds, self.smooth().voltage, label='voltage, smoothed')
+        peaks = self.peaks()
+        plt.plot(seconds[peaks], self.voltage[peaks], 'x', label='peaks')
+        plt.xlabel('seconds')
+        plt.ylabel('volts')
+        plt.legend()
         plt.gcf().canvas.set_window_title(window_title)
         plt.show()
