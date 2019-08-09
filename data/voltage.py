@@ -55,14 +55,17 @@ class Voltage:
         return find_peaks(self.voltage, prominence=prominence, distance=distance)[0]
 
 
-    def plot(self, window_title='voltage plot'):
+    def plot(self, window_title='voltage plot', show=True, save_as=None):
         seconds = np.linspace(0, len(self.voltage) * self.resolution, len(self.voltage))
-        plt.plot(seconds, self.voltage, label='voltage')
-        plt.plot(seconds, self.smooth().voltage, label='voltage, smoothed')
+        plt.plot(seconds, self.voltage, label='Voltage')
+        plt.plot(seconds, self.smooth().voltage, label='Voltage, smoothed')
         peaks = self.peaks()
-        plt.plot(seconds[peaks], self.voltage[peaks], 'x', label='peaks')
-        plt.xlabel('seconds')
-        plt.ylabel('volts')
+        plt.plot(seconds[peaks], self.voltage[peaks], 'x', label='Peaks', markersize=12)
+        plt.xlabel('Time [s]')
+        plt.ylabel('Voltage [V]')
         plt.legend()
         plt.gcf().canvas.set_window_title(window_title)
-        plt.show()
+        if show:
+            plt.show()
+        if save_as is not None:
+            plt.savefig(save_as)
