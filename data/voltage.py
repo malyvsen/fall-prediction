@@ -59,10 +59,10 @@ class Voltage:
 
     def plot(self, window_title='voltage plot', show=True, save_as=None):
         seconds = np.linspace(0, len(self.voltage) * self.resolution, len(self.voltage))
-        plt.plot(seconds, self.voltage, label='Voltage')
-        plt.plot(seconds, self.smooth().voltage, label='Voltage, smoothed')
+        plt.plot(seconds, self.voltage, label='Voltage', color='skyblue')
+        plt.plot(seconds, self.smooth().voltage, label='Voltage, smoothed', color='indigo')
         peaks = self.peaks()
-        plt.plot(seconds[peaks], self.voltage[peaks], 'x', label='Peaks', markersize=12)
+        plt.plot(seconds[peaks], self.voltage[peaks], 'x', label='Peaks', color='indigo', markersize=12)
         plt.xlabel('Time [s]')
         plt.ylabel('Voltage [V]')
         plt.legend()
