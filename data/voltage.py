@@ -1,7 +1,9 @@
+import os
 import csv
 import numpy as np
 from scipy.signal import savgol_filter, find_peaks
 import matplotlib.pyplot as plt
+import utils
 from heart_rate import HeartRate
 
 
@@ -65,7 +67,4 @@ class Voltage:
         plt.ylabel('Voltage [V]')
         plt.legend()
         plt.gcf().canvas.set_window_title(window_title)
-        if show:
-            plt.show()
-        if save_as is not None:
-            plt.savefig(save_as)
+        utils.render_plot(show, save_as)

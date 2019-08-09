@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import utils
 
 
 
@@ -33,10 +34,10 @@ class HeartRate:
         return result
 
 
-    def plot(self, window_title='heart rate plot'):
+    def plot(self, window_title='heart rate plot', show=True, save_as=None):
         plt.plot(self.beat_times, self.heart_rate, label='heart rate')
         plt.xlabel('seconds')
         plt.ylabel('beats per minute')
         plt.legend()
         plt.gcf().canvas.set_window_title(window_title)
-        plt.show()
+        utils.render_plot(show, save_as)
