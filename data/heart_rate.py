@@ -10,7 +10,7 @@ class HeartRate:
         self.heart_rate = heart_rate
 
 
-    def to_student_format(self):
+    def preprocessed(self):
         result = pd.DataFrame(data={'HR': self.heart_rate})
         # interpolate data to remove NaN values
         result = result.interpolate(method="linear").fillna(method="bfill").fillna(method="ffill")
